@@ -12,5 +12,9 @@ This sample provides the schema and data of a database used by a store selling m
 1. **employees:** stores all employee information as well as the organisation structure such as who reports to whom.
 1. **offices:** stores sales office data.
 
+## Dialects:
+1. Hive
+1. MySQL
+
 ## ER-Diagram:
 ![ER-Diagram](erd_image.png "ER-Diagram")
