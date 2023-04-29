@@ -12,14 +12,15 @@ import TabPanel from '@mui/lab/TabPanel';
 const Container = styled.div`
   padding: 20px 25px;
 
-  textarea {
+  textarea.prompt-editor {
     display: block;
     box-sizing: border-box;
     width: 100%;
     height: 350px;
+    border-radius: 4px;
+    padding: 10px;
 
     resize: none;
-    border-radius: 4px;
   }
 
   .tab-panel {
