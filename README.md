@@ -10,7 +10,7 @@ In the `./ui` directory, you can run:
 
 UI would be started in dev mode on port 3000, and you can now view it in the browser at http://localhost:3000
 
-### Samples DBs
+## Samples DBs
 
 Smart Query comes with a set of sample databases that includes both schema and data for various dialects to try out the features.
 
