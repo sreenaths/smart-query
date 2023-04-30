@@ -1,14 +1,46 @@
-# SmartQuery
+# Smart Query
 
-SmartQuery integrates a database and a LLM, and provides a set of APIs to interact with them.
+Smart Query integrates a database and a LLM, and provides a set of APIs to interact with them.
 
-## Available Scripts
+## Server Scripts
 
-In the `./ui` directory, you can run:
+Must be run inside `./server` directory.
 
-### `npm start`
+### Activate Server Environment
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+### Start Server
+```
+cd ./src
+gunicorn app:app --reload
+```
 
-UI would be started in dev mode on port 3000, and you can now view it in the browser at http://localhost:3000
+### Deactivate Server Environment
+```
+deactivate
+```
+
+### Update requirements.txt
+
+```
+pip freeze > requirements.txt
+```
+Must be run after adding a new pip dependency.
+
+## UI Scripts
+
+Must be run inside `./ui` directory.
+
+### Start Server
+
+```
+npm start
+```
+
+UI would be started in dev mode on port 3000, and you can now view it in the browser at http://localhost:3000.
 
 ## Samples DBs
 
