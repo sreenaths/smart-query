@@ -18,6 +18,8 @@ cd ./src
 gunicorn app:app --reload
 ```
 
+Server would start running on http://127.0.0.1:8000.
+
 ### Deactivate Server Environment
 ```
 deactivate

@@ -8,4 +8,4 @@ class QuoteResource:
         resp.media = data
 
 app = falcon.App()
-app.add_route('/test', QuoteResource())
+app.add_route('/api/test', QuoteResource())
