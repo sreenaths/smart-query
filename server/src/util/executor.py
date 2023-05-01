@@ -17,7 +17,7 @@ def create_executor(configs, env):
     agent_executor = create_sql_agent(
         llm=llm,
         toolkit=toolkit,
-        verbose=False
+        verbose=True
     )
 
     return agent_executor
