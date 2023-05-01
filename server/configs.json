@@ -1,0 +1,4 @@
+{
+  "llm": "OpenAI",
+  "sql_db_uri": "mysql+pymysql://root:mypswd@localhost/model_store"
+}
