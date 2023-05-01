@@ -4,9 +4,9 @@ from langchain.sql_database import SQLDatabase
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 
 def create_llm(configs, env):
-    match configs["llm"].lower():
-        case "openai":
-            return OpenAI(temperature=0,  openai_api_key=env["LLM_API_KEY"])
+    llm = configs["llm"].lower()
+    if llm == "openai":
+        return OpenAI(temperature=0,  openai_api_key=env["LLM_API_KEY"])
     raise Exception("Invalid llm configuration.")
 
 def create_executor(configs, env):
