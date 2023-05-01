@@ -36,6 +36,12 @@ const Header = styled.header`
     display: inline-block;
     margin-left: auto;
   }
+
+  .connected-text {
+    position: absolute;
+    right: 25px;
+    font-size: 0.9em;
+  }
 `;
 
 interface Props {
@@ -46,6 +52,7 @@ function AppHeader({ controls }: Props) {
     <Header>
       <img className='logo' src="icon.png" alt="Smart Query"/>
       <span className='logo-text'>Smart Query</span>
+      <span className="connected-text">Connected to <strong>model_store</strong> DB on MySQL</span>
     </Header>
   );
 }
