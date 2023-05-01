@@ -1,13 +1,17 @@
-import React from "react";
-
+import React, { useState, KeyboardEventHandler } from "react";
 import styled from "styled-components";
 
-import Button from '@mui/material/Button';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import LinearProgress from '@mui/material/LinearProgress';
+
+import { HandlerStatus, useStateHandler } from "../util/handler";
+import { submitQuery } from "../service/query";
+import ProcessSteps from "./ProcessSteps";
 
 const Container = styled.div`
   padding: 20px 25px;
@@ -36,8 +40,24 @@ const Container = styled.div`
     padding: 10px 15px;
     font-size: 1.2em;
     box-sizing: border-box;
+
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  .processing-anim {
+    line-height: 30px;
   }
 `;
+
+const ProcessingAnim = () => (
+  <div>
+    <LinearProgress />
+    <div className="processing-anim">
+      Processing...
+    </div>
+  </div>
+);
 
 const ButtonPanel = styled.div`
   padding-top: 10px;
@@ -46,32 +66,49 @@ const ButtonPanel = styled.div`
 
 function PromptEditor() {
   const [value, setValue] = React.useState('1');
+  const handleTabChange = (_: any, newValue: string) => setValue(newValue);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
+  const [queryText, setQueryText] = useState("");
+  const [resp, handler, setResponse] = useStateHandler(null, submitQuery);
+  const isLoading = handler.status === HandlerStatus.IN_PROGRESS;
+
+  const onSubmit = () => {
+    setResponse(null);
+    handler.call(queryText);
   };
+  const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    if(e.code === "Enter" && e.shiftKey === false) {
+      e.preventDefault();
+      onSubmit();
+    }
+  }
 
   return (
     <Container>
-      <textarea className="prompt-editor"></textarea>
+      <textarea className="prompt-editor" value={queryText}
+          onChange={e => setQueryText(e.target.value)} onKeyDown={onKeyDown}></textarea>
       <ButtonPanel>
-        <Button variant="contained">Submit</Button>
+        <LoadingButton variant="contained" loading={isLoading} disabled={queryText === ""} onClick={onSubmit}>
+          Submit
+        </LoadingButton>
       </ButtonPanel>
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+          <TabList onChange={handleTabChange} aria-label="lab API tabs example">
             <Tab label="Response" value="1" />
-            <Tab label="Thought Process" value="2" />
+            <Tab label="Thought Process" value="2"/>
           </TabList>
         </Box>
         <TabPanel value="1" className="tab-panel">
           <pre className="response-panel">
-
+            {isLoading && <ProcessingAnim />}
+            {resp?.response}
           </pre>
         </TabPanel>
         <TabPanel value="2" className="tab-panel">
           <pre className="thought-process-panel">
-            Thought Process
+            {isLoading && <ProcessingAnim />}
+            {resp && <ProcessSteps steps={resp.steps}/>}
           </pre>
         </TabPanel>
       </TabContext>
