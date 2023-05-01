@@ -1,11 +1,17 @@
 import falcon
 
-from lib import data
+from util.executor import create_executor
+from core.config import configs, env
 
-class QuoteResource:
-    def on_get(self, req, resp):
-        """Handle GET requests."""
-        resp.media = data
+executor = create_executor(configs, env)
+
+class QueryResource:
+    def on_post(self, req, resp):
+        query = req.media["query_text"]
+        response = executor.run(query)
+        resp.media = {
+            "response": response
+        }
 
 app = falcon.App()
-app.add_route('/api/test', QuoteResource())
+app.add_route('/api/query', QueryResource())
