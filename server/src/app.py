@@ -1,10 +1,8 @@
 import falcon
 
-from io import StringIO
-import sys
-
 from util.executor import create_executor
 from core.config import configs, env
+from core.stdout import trap_stdout, get_stdout
 
 executor = create_executor(configs, env)
 
@@ -12,17 +10,13 @@ class QueryResource:
     def on_post(self, req, resp):
         query = req.media["query_text"]
 
-        temp_out = StringIO()
-        sys.stdout = temp_out
-
+        trap = trap_stdout()
         response = executor.run(query)
-
-        sys.stdout = sys.__stdout__
-        thoughts = temp_out.getvalue().strip()
+        steps = get_stdout(trap)
 
         resp.media = {
             "response": response,
-            "thoughts": thoughts
+            "steps": steps
         }
 
 app = falcon.App()
