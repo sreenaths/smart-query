@@ -4,15 +4,16 @@ Smart Query integrates a database and a LLM, and provides a set of APIs to inter
 
 ## Server Scripts
 
-Must be run inside `./server` directory.
+Must be run inside `./server` directory. On Python 3.9.16 or higher.
 
 ### Activate Server Environment
 ```
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+source ./activate.sh
 ```
+Activate would setup & activate a Python venv, install requirements and set PYTHONPATH environment variable.
+
 ### Start Server
+venv must be active before running the server.
 ```
 gunicorn --chdir ./src app:app --reload
 ```
