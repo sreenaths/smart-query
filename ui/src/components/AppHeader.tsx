@@ -52,7 +52,7 @@ function AppHeader({ controls }: Props) {
     <Header>
       <img className='logo' src="icon.png" alt="Smart Query"/>
       <span className='logo-text'>Smart Query</span>
-      <span className="connected-text">Connected to <strong>model_store</strong> DB on MySQL</span>
+      <span className="connected-text">Connected to <strong>model_store</strong> DB on <strong>Hive</strong></span>
     </Header>
   );
 }
