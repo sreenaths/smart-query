@@ -20,5 +20,5 @@ source $VENV_PATH/bin/activate
 pip install -r requirements.txt
 
 if [[ "$PYTHONPATH" != *"${PWD}/src/"* ]]; then
-  export PYTHONPATH="${PYTHONPATH}:${PWD}/src/"
+  export PYTHONPATH="${PYTHONPATH}:${PWD}/src/:${PWD}/src/dialects/"
 fi

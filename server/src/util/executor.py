@@ -6,6 +6,8 @@ from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 from dialects.hive.sqlalchemy_hive import register_dialect
 register_dialect()
 
+import dialects.impala.sqlalchemy
+
 def create_llm(configs, env):
     llm = configs["llm"].lower()
     if llm == "openai":
