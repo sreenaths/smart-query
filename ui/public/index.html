@@ -28,6 +28,13 @@
     <title>Smart Query</title>
   </head>
   <body>
+    <script>
+      window.addEventListener('error', (e) => {
+        // prevent React's listener from firing
+        e.stopImmediatePropagation();
+      });
+    </script>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
