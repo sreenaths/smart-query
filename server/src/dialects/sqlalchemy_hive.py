@@ -21,6 +21,13 @@ from sqlalchemy.sql.compiler import SQLCompiler
 from dateutil.parser import parse
 from decimal import Decimal
 
+from sqlalchemy.dialects import registry
+
+def register_dialect(dialect = "dialects.sqlalchemy_hive"):
+    registry.register("hive.hs2", dialect, "HiveDialect")
+    registry.register("hive.hs2http", dialect, "HiveHTTPDialect")
+    registry.register("hive.hs2https", dialect, "HiveHTTPSDialect")
+
 class UniversalSet(object):
     """set containing everything"""
     def __contains__(self, item):
@@ -246,7 +253,7 @@ class HiveDialect(default.DefaultDialect):
     supports_multivalues_insert = True
     type_compiler = HiveTypeCompiler
     supports_sane_rowcount = False
-    supports_statement_cache = True
+    supports_statement_cache = False
 
     @classmethod
     def import_dbapi(cls):

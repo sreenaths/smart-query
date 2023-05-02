@@ -1,5 +1,5 @@
 {
   "llm": "OpenAI",
-  "sql_db_uri": "hs2://sree-demo-3.sree-demo.root.hwx.site:10000/model_store",
+  "sql_db_uri": "hive+hs2://sree-demo-3.sree-demo.root.hwx.site:10000/model_store",
   "my_sql_db_uri": "mysql+pymysql://root:mypswd@localhost/model_store"
 }

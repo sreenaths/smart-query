@@ -4,15 +4,17 @@
 
 from sqlalchemy import text
 from sqlalchemy.engine import create_engine
-from sqlalchemy.dialects import registry
 
-registry.register("hs2", "dialects.sqlalchemy_hive", "HiveDialect")
-registry.register("hs2.http", "dialects.sqlalchemy_hive", "HiveHTTPDialect")
-registry.register("hs2.https", "dialects.sqlalchemy_hive", "HiveHTTPSDialect")
+from dialects.sqlalchemy_hive import register_dialect
+register_dialect()
 
-hive_server_host = "sree-demo-3.sree-demo.root.hwx.site"
-engine = create_engine(f'hs2://{hive_server_host}:10000/model_store')
+# Change the following based on your tyest setup
+db_dialect = "hive+hs2"
+db_server_host = "sree-demo-3.sree-demo.root.hwx.site"
+db_port = "10000"
+db_name = "model_store"
 
+engine = create_engine(f'{db_dialect}://{db_server_host}:{db_port}/{db_name}')
 conn = engine.connect()
 ResultProxy  = conn.execute(text("SELECT * FROM customers LIMIT 3"))
 
