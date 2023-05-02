@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Copier from "./Copier";
 
 const getClassName = (title: string): string => `step-${title.toLowerCase().replace(" ", "-")}`;
 
@@ -20,12 +21,22 @@ interface Props {
 }
 const ProcessSteps = ({ steps }: Props) => {
   const lines = steps.split("\n");
+  let isGeneratedSQL = false;
   return (
     <Container>
       {lines.map(line => {
         const parts = line.split(":");
         const title = parts.shift() || "";
-        const description = parts.join(":");
+        let description: any = parts.join(":");
+
+        if(title === "Action") {
+          isGeneratedSQL = description === " query_sql_db";
+        } else if(title === "Action Input" && isGeneratedSQL) {
+          description = (
+            <Copier text={description} />
+          );
+        }
+
         return (
           <div className={getClassName(title)}>
             <strong>{title}:</strong>

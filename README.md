@@ -26,7 +26,6 @@ deactivate
 ```
 
 ### Update requirements.txt
-
 ```
 pip freeze > requirements.txt
 ```
@@ -35,10 +34,16 @@ Must be run after adding a new pip dependency.
 ### Connection test
 
 After activating the server, run the following to test Hive connection. It would quickly check if all the activation steps went fine.
-
 ```
 cd sample_dbs/model_store/test/
 python test_hive_connection.py
+```
+
+### Linux Prerequisites
+```
+# Install Python 3.9.16 and then
+yum install gcc-c++
+yum install cyrus-sasl-devel
 ```
 
 ## UI Scripts
@@ -46,7 +51,6 @@ python test_hive_connection.py
 Must be run inside `./ui` directory.
 
 ### Start Server
-
 ```
 npm start
 ```
