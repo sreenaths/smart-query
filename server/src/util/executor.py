@@ -3,6 +3,13 @@ from langchain.llms import OpenAI
 from langchain.sql_database import SQLDatabase
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 
+from sqlalchemy.dialects import registry
+
+dialect = "dialects.sqlalchemy_hive"
+registry.register("hs2", dialect, "HiveDialect")
+registry.register("hs2.http", dialect, "HiveHTTPDialect")
+registry.register("hs2.https", dialect, "HiveHTTPSDialect")
+
 def create_llm(configs, env):
     llm = configs["llm"].lower()
     if llm == "openai":
