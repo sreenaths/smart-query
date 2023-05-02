@@ -40,9 +40,11 @@ python test_hive_connection.py
 ```
 
 ### Linux Prerequisites
+Install Python 3.9.16 - https://computingforgeeks.com/install-latest-python-on-centos-linux/
+
 ```
-# Install Python 3.9.16 and then
-yum install gcc-c++
+alias python=/usr/local/bin/python3.9
+alias pip=/usr/local/bin/pip3.9
 yum install cyrus-sasl-devel
 ```
 
