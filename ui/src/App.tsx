@@ -1,18 +1,13 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import AppHeader from './components/AppHeader';
-import PromptEditor from './components/PromptEditor';
-
-const Body = styled.div``;
+import MainTabs from './MainTabs';
 
 function App() {
   return (
     <div className="App">
       <AppHeader />
-      <Body>
-        <PromptEditor />
-      </Body>
+      <MainTabs />
     </div>
   );
 }
