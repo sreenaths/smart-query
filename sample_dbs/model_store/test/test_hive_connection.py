@@ -5,7 +5,7 @@
 from sqlalchemy import text
 from sqlalchemy.engine import create_engine
 
-from dialects.sqlalchemy_hive import register_dialect
+from dialects.hive.sqlalchemy_hive import register_dialect
 register_dialect()
 
 # Change the following based on your tyest setup

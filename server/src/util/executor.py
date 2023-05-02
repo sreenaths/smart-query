@@ -3,7 +3,7 @@ from langchain.llms import OpenAI
 from langchain.sql_database import SQLDatabase
 from langchain.agents.agent_toolkits import SQLDatabaseToolkit
 
-from dialects.sqlalchemy_hive import register_dialect
+from dialects.hive.sqlalchemy_hive import register_dialect
 register_dialect()
 
 def create_llm(configs, env):

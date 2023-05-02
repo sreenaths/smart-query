@@ -23,7 +23,7 @@ from decimal import Decimal
 
 from sqlalchemy.dialects import registry
 
-def register_dialect(dialect = "dialects.sqlalchemy_hive"):
+def register_dialect(dialect = "dialects.hive.sqlalchemy_hive"):
     registry.register("hive.hs2", dialect, "HiveDialect")
     registry.register("hive.hs2http", dialect, "HiveHTTPDialect")
     registry.register("hive.hs2https", dialect, "HiveHTTPSDialect")
