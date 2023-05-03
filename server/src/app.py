@@ -1,16 +1,18 @@
 import falcon
 
-from util.executor import create_executor
-from core.config import configs, env
-from core.stdout import trap_stdout, get_stdout
+from core.config import configs
 
-executor = create_executor(configs, env)
+from util.executor import executor_factory
+from core.stdout import trap_stdout, get_stdout
 
 class QueryResource:
     def on_post(self, req, resp):
         query = req.media["query_text"]
+        dialect = req.media["dialect"]
+        db_name = req.media["db_name"]
 
         trap = trap_stdout()
+        executor = executor_factory(dialect, db_name)
         response = executor.run(query)
         steps = get_stdout(trap)
 
