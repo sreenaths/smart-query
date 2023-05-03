@@ -10,7 +10,9 @@ export const submitQuery = async (queryText: string): Promise<QueryResponse | nu
   }
 
   const resp = await axios.post('/api/query', {
-    "query_text": queryText
+    "query_text": queryText,
+    "connector_id": "impala",
+    "db_name": "model_store"
   });
   return resp.data;
 }
