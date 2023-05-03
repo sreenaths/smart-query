@@ -57,7 +57,7 @@ function AppHeader({ controls }: Props) {
       <span className='logo-text'>Smart Query</span>
       <span className="connected-text">
         Connected to <strong>model_store</strong> database on <strong>Hive</strong>
-        &nbsp;| Connectors: {Object.keys(configs?.connectors || {}).length}
+        &nbsp;| Connectors: {Object.keys(configs.connectors).length}
       </span>
     </Header>
   );

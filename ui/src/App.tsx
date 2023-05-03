@@ -10,10 +10,12 @@ import { ConfigsContext, loadConfigs } from './service/configs';
 function App() {
   const [configs, handler] = useStateHandler(null, loadConfigs, []);
 
-  if(handler.status === HandlerStatus.IN_PROGRESS) {
+  if(handler.status === HandlerStatus.IDLE || handler.status === HandlerStatus.IN_PROGRESS) {
     return (
       <LinearProgress />
     );
+  } else if (!configs) {
+    throw new Error("Invalid configurations. Please check the server logs.");
   }
 
   return (
