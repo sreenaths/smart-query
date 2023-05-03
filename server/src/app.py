@@ -21,5 +21,12 @@ class QueryResource:
             "steps": steps
         }
 
+class ConfigsResource:
+    def on_get(self, req, resp):
+        resp.media = {
+            "configs": configs
+        }
+
 app = falcon.App()
+app.add_route('/api/configs', ConfigsResource())
 app.add_route('/api/query', QueryResource())

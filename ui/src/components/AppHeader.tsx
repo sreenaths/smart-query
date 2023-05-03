@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 
 import styled from "styled-components";
+import { useConfigsContext } from "../service/configs";
 
 const Header = styled.header`
   background-color: #eee;
@@ -48,11 +49,16 @@ interface Props {
   controls?: ReactNode;
 }
 function AppHeader({ controls }: Props) {
+  const configs = useConfigsContext();
+
   return (
     <Header>
       <img className='logo' src="icon.png" alt="Smart Query"/>
       <span className='logo-text'>Smart Query</span>
-      <span className="connected-text">Connected to <strong>model_store</strong> database on <strong>Hive</strong></span>
+      <span className="connected-text">
+        Connected to <strong>model_store</strong> database on <strong>Hive</strong>
+        &nbsp;| Connectors: {Object.keys(configs?.connectors || {}).length}
+      </span>
     </Header>
   );
 }
