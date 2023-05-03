@@ -16,21 +16,22 @@ def create_llm():
         return OpenAI(temperature=0,  openai_api_key=env["LLM_API_KEY"])
     raise Exception("Invalid llm configuration.")
 
-def create_db(dialect, db_name):
-    dialect_configs = configs["dialects"][dialect]
-    db_uri = dialect_configs["db_uri"]
+def create_db(connector_id, db_name):
+    connector_configs = configs["connectors"][connector_id]
+    url = connector_configs["url"]
 
-    return SQLDatabase.from_uri(f'{db_uri}/{db_name}')
+    return SQLDatabase.from_uri(f'{url}/{db_name}')
 
 llm = create_llm()
+
 executor_cache = {}
-def executor_factory(dialect, db_name):
-    cache_key = f'{dialect}:{db_name}'
+def executor_factory(connector_id, db_name):
+    cache_key = f'{connector_id}:{db_name}'
 
     if cache_key in executor_cache:
         return executor_cache[cache_key]
 
-    db = create_db(dialect, db_name)
+    db = create_db(connector_id, db_name)
 
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
     agent_executor = create_sql_agent(

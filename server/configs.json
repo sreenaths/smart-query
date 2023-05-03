@@ -1,15 +1,17 @@
 {
   "llm": "OpenAI",
-  "dialects": {
-    "hive": {
+  "connectors": [
+    {
+      "id": "hive",
       "name": "Hive",
-      "db_uri": "hive+hs2://sree-demo-3.sree-demo.root.hwx.site:10000",
+      "url": "hive+hs2://sree-demo-3.sree-demo.root.hwx.site:10000",
       "databases": ["default", "model_store", "information_schema"]
     },
-    "impala": {
+    {
+      "id": "impala",
       "name": "Impala",
-      "db_uri": "impala://sree-demo-1.sree-demo.root.hwx.site:21050",
+      "url": "impala://sree-demo-1.sree-demo.root.hwx.site:21050",
       "databases": ["default", "model_store"]
     }
-  }
+  ]
 }
