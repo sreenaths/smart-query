@@ -9,13 +9,11 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import AppHeader from './components/AppHeader';
+import DBSchema from './components/DBSchema';
 
 const Container = styled.div`
   .tab-panel {
     padding: 24px 0;
-  }
-  .erd-panel {
-    text-align: center;
   }
   .tab-box {
     border-bottom: 1px solid silver;
@@ -41,7 +39,7 @@ const MainPage = () => {
               <Tab label="Ask" value="1" />
               <Tab label="Generate" value="2" disabled/>
               <Tab label="Summarise" value="3" disabled/>
-              <Tab label="Database Erd" value="4" className='right-tab'/>
+              <Tab label="Schema" value="4" className='right-tab'/>
             </TabList>
           </Box>
 
@@ -49,9 +47,7 @@ const MainPage = () => {
             <PromptEditor />
           </TabPanel>
           <TabPanel value="4" className="tab-panel">
-            <div className='erd-panel'>
-              <img src="erd_image.png" alt="DB Erd" />
-            </div>
+            <DBSchema />
           </TabPanel>
         </TabContext>
       </Container>
