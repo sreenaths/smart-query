@@ -1,11 +1,12 @@
 import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import LinearProgress from '@mui/material/LinearProgress';
 
-import AppHeader from './components/AppHeader';
-import MainTabs from './MainTabs';
 import { HandlerStatus, useStateHandler } from './util/handler';
 import { ConfigsContext, loadConfigs } from './service/configs';
+import AppRoutes from './AppRoutes';
+import ErrorMessage from './components/ErrorMessage';
 
 function App() {
   const [configs, handler] = useStateHandler(null, loadConfigs, []);
@@ -19,12 +20,13 @@ function App() {
   }
 
   return (
-    <ConfigsContext.Provider value={configs}>
-      <section className="App">
-        <AppHeader />
-        <MainTabs />
-      </section>
-    </ConfigsContext.Provider>
+    <ErrorBoundary FallbackComponent={ErrorMessage}>
+      <ConfigsContext.Provider value={configs}>
+        <section className="App">
+          <AppRoutes />
+        </section>
+      </ConfigsContext.Provider>
+    </ErrorBoundary>
   );
 }
 
