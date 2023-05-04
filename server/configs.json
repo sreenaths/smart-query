@@ -2,16 +2,16 @@
   "llm": "OpenAI",
   "connectors": [
     {
-      "id": "hive",
-      "name": "Hive",
-      "url": "hive+hs2://sree-demo-3.sree-demo.root.hwx.site:10000",
-      "databases": ["default", "model_store", "information_schema"]
-    },
-    {
       "id": "impala",
       "name": "Impala",
       "url": "impala://sree-demo-1.sree-demo.root.hwx.site:21050",
       "databases": ["default", "model_store"]
+    },
+    {
+      "id": "hive",
+      "name": "Hive",
+      "url": "hive+hs2://sree-demo-3.sree-demo.root.hwx.site:10000",
+      "databases": ["default", "model_store", "information_schema"]
     }
   ]
 }

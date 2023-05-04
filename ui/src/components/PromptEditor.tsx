@@ -12,6 +12,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { HandlerStatus, useStateHandler } from "../util/handler";
 import { submitQuery } from "../service/query";
 import ProcessSteps from "./ProcessSteps";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   padding: 20px 25px;
@@ -68,13 +69,19 @@ function PromptEditor() {
   const [value, setValue] = React.useState('1');
   const handleTabChange = (_: any, newValue: string) => setValue(newValue);
 
+  const { connectorId, databaseName } = useParams();
   const [queryText, setQueryText] = useState("");
   const [resp, handler, setResponse] = useStateHandler(null, submitQuery);
-  const isLoading = handler.status === HandlerStatus.IN_PROGRESS;
 
   const onSubmit = () => {
     setResponse(null);
-    handler.call(queryText);
+    if(connectorId && databaseName) {
+      handler.call({
+        queryText,
+        connectorId,
+        databaseName
+      });
+    }
   };
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     if(e.code === "Enter" && e.shiftKey === false) {
@@ -83,6 +90,7 @@ function PromptEditor() {
     }
   }
 
+  const isLoading = handler.status === HandlerStatus.IN_PROGRESS;
   return (
     <Container>
       <textarea className="prompt-editor" value={queryText}

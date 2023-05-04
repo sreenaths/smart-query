@@ -1,16 +1,17 @@
 import { createContext, useContext } from "react";
 
 import axios from "axios"
+import { KV } from "../common/types";
 
-interface Connector {
+export interface Connector {
   id: string;
   name: string;
   url: string;
   databases: string[];
 }
-interface Configs {
+export interface Configs {
   llm: string;
-  connectors: Connector[]
+  connectors: KV<Connector>
 }
 
 export const ConfigsContext = createContext<Configs | null>(null);
