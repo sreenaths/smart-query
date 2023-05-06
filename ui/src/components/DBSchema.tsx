@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
 import {
-  Accordion, AccordionDetails, AccordionSummary, LinearProgress,
+  Accordion, AccordionDetails, AccordionSummary, IconButton, LinearProgress,
   Paper, Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow, Typography
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
 
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { colorBrewer } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -18,6 +19,13 @@ import { loadSchema } from "../service/db";
 
 const Container = styled.div`
   padding: 0 25px;
+  position: relative;
+
+  .refresh-button {
+    position: absolute;
+    top: -5px;
+    right: 32px;
+  }
 
   .MuiAccordionSummary-root {
     min-height: none;
@@ -39,20 +47,6 @@ const Container = styled.div`
       }
     }
   }
-`;
-
-const Details = styled.pre`
-  width: 100%;
-  min-height: 50px;
-  background-color: #EEE;
-  border-radius: 4px;
-  margin-top: 0;
-
-  padding: 10px 15px;
-  box-sizing: border-box;
-
-  overflow-x: auto;
-  white-space: pre-wrap;
 `;
 
 const highlighterStyled: React.CSSProperties = {
@@ -78,6 +72,9 @@ const DBSchema = () => {
   return (
     <Container>
       <Typography variant="h5" component="h5">Tables</Typography><br />
+      <IconButton color="primary" className="refresh-button" onClick={handler.call}>
+        <RefreshOutlinedIcon />
+      </IconButton>
       {tableSchemas?.map((schema, index) => (
         <Accordion key={index}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
