@@ -19,7 +19,17 @@ Question: {input}
 Thought: How do I create the most simple {dialect} SQL query.
 {agent_scratchpad}"""
 
+_SUMMARISE_SUFFIX = """
+Current database is {db_name}.
+
+Summarise the following query. What does it mean.
+
+Query: {input}
+Thought: I should look at the tables in the database to see what tables are available.
+{agent_scratchpad}"""
+
 SUFFIX = {
     "ask": _ASK_SUFFIX,
-    "generate": _GENERATE_SUFFIX
+    "generate": _GENERATE_SUFFIX,
+    "summarise": _SUMMARISE_SUFFIX
 }

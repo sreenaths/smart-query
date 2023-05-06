@@ -36,7 +36,7 @@ const MainPage = () => {
           <Tabs value={value} onChange={handleTabChange}>
             <Tab label="Ask" value="1" />
             <Tab label="Generate" value="2"/>
-            <Tab label="Summarise" value="3" disabled/>
+            <Tab label="Summarise" value="3"/>
             <Tab label="Schema" value="4" className='right-tab'/>
           </Tabs>
         </Box>
@@ -46,6 +46,9 @@ const MainPage = () => {
         </TabPanel>
         <TabPanel currentValue={value} value="2">
           <PromptEditor type="generate" />
+        </TabPanel>
+        <TabPanel currentValue={value} value="3">
+          <PromptEditor type="summarise" />
         </TabPanel>
         <TabPanel currentValue={value} value="4">
           <DBSchema />
