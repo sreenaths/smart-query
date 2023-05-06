@@ -5,11 +5,10 @@ import PromptEditor from './components/PromptEditor';
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
+import Tabs from '@mui/material/Tabs';
 import AppHeader from './components/AppHeader';
 import DBSchema from './components/DBSchema';
+import TabPanel from './components/TabPanel';
 
 const Container = styled.div`
   .tab-panel {
@@ -33,23 +32,24 @@ const MainPage = () => {
     <>
       <AppHeader />
       <Container>
-        <TabContext value={value}>
-          <Box className="tab-box">
-            <TabList onChange={handleTabChange}>
-              <Tab label="Ask" value="1" />
-              <Tab label="Generate" value="2" disabled/>
-              <Tab label="Summarise" value="3" disabled/>
-              <Tab label="Schema" value="4" className='right-tab'/>
-            </TabList>
-          </Box>
+        <Box className="tab-box">
+          <Tabs value={value} onChange={handleTabChange}>
+            <Tab label="Ask" value="1" />
+            <Tab label="Generate" value="2"/>
+            <Tab label="Summarise" value="3" disabled/>
+            <Tab label="Schema" value="4" className='right-tab'/>
+          </Tabs>
+        </Box>
 
-          <TabPanel value="1" className="tab-panel">
-            <PromptEditor />
-          </TabPanel>
-          <TabPanel value="4" className="tab-panel">
-            <DBSchema />
-          </TabPanel>
-        </TabContext>
+        <TabPanel currentValue={value} value="1">
+          <PromptEditor type="ask" />
+        </TabPanel>
+        <TabPanel currentValue={value} value="2">
+          <PromptEditor type="generate" />
+        </TabPanel>
+        <TabPanel currentValue={value} value="4">
+          <DBSchema />
+        </TabPanel>
       </Container>
     </>
   );
