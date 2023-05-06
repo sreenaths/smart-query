@@ -22,7 +22,7 @@ Thought: How do I create the most simple {dialect} SQL query.
 _SUMMARISE_SUFFIX = """
 Current database is {db_name}.
 
-Summarise the following query. What does it mean.
+Summarise what the following query does.
 
 Query: {input}
 Thought: I should look at the tables in the database to see what tables are available.
