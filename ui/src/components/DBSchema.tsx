@@ -2,8 +2,15 @@ import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
-import { Accordion, AccordionDetails, AccordionSummary, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import {
+  Accordion, AccordionDetails, AccordionSummary, LinearProgress,
+  Paper, Table, TableBody, TableCell, TableContainer,
+  TableHead, TableRow, Typography
+} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { colorBrewer } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 import { HandlerStatus, useStateHandler } from "../util/handler";
 import { ConnectorDBParams } from "../service/params";
@@ -12,8 +19,17 @@ import { loadSchema } from "../service/db";
 const Container = styled.div`
   padding: 0 25px;
 
+  .MuiAccordionSummary-root {
+    min-height: none;
+    height: 10px;
+  }
+
   .Mui-expanded .MuiAccordionSummary-content p {
     font-weight: bold !important;
+  }
+
+  .MuiAccordionDetails-root {
+    padding-top: 0;
   }
 
   .sample-data-table {
@@ -39,6 +55,13 @@ const Details = styled.pre`
   white-space: pre-wrap;
 `;
 
+const highlighterStyled: React.CSSProperties = {
+  border: "1px solid #DDD",
+  borderRadius: "4px",
+  padding: "10px",
+  marginTop: 0
+};
+
 const DBSchema = () => {
   const { connectorId, databaseName } = useParams() as ConnectorDBParams;
   const [tableSchemas, handler] = useStateHandler(null,
@@ -61,7 +84,9 @@ const DBSchema = () => {
             <Typography>{index + 1}. {schema.tableName}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Details>{schema.ddl}</Details>
+            <SyntaxHighlighter language="sql_more" style={colorBrewer} customStyle={highlighterStyled}>
+              {schema.ddl}
+            </SyntaxHighlighter>
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 650 }} className="sample-data-table">
                 <TableHead>
