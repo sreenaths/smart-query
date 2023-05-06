@@ -69,16 +69,19 @@ function PromptEditor({ type }: Props) {
   const { connectorId, databaseName } = useParams();
   const [queryText, setQueryText] = useState("");
   const [resp, handler, setResponse] = useStateHandler(null, submitQuery);
+  const isLoading = handler.status === HandlerStatus.IN_PROGRESS;
 
   const onSubmit = () => {
-    setResponse(null);
-    if(connectorId && databaseName) {
-      handler.call({
-        queryText,
-        type,
-        connectorId,
-        databaseName
-      });
+    if(!isLoading) {
+      setResponse(null);
+      if(connectorId && databaseName) {
+        handler.call({
+          queryText,
+          type,
+          connectorId,
+          databaseName
+        });
+      }
     }
   };
   const onKeyDown: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
@@ -88,7 +91,6 @@ function PromptEditor({ type }: Props) {
     }
   }
 
-  const isLoading = handler.status === HandlerStatus.IN_PROGRESS;
   return (
     <Container>
       <textarea className="prompt-editor" value={queryText}
