@@ -13,6 +13,7 @@ import { HandlerStatus, useStateHandler } from "../util/handler";
 import { submitQuery } from "../service/query";
 import ProcessSteps from "./ProcessSteps";
 import { useParams } from "react-router-dom";
+import Copier from "./Copier";
 
 const Container = styled.div`
   padding: 20px 25px;
@@ -65,7 +66,10 @@ const ButtonPanel = styled.div`
   text-align: right;
 `;
 
-function PromptEditor() {
+interface Props {
+  type: string;
+}
+function PromptEditor({ type }: Props) {
   const [value, setValue] = React.useState('1');
   const handleTabChange = (_: any, newValue: string) => setValue(newValue);
 
@@ -78,6 +82,7 @@ function PromptEditor() {
     if(connectorId && databaseName) {
       handler.call({
         queryText,
+        type,
         connectorId,
         databaseName
       });
@@ -110,7 +115,7 @@ function PromptEditor() {
         <TabPanel value="1" className="tab-panel">
           <pre className="response-panel">
             {isLoading && <ProcessingAnim />}
-            {resp?.response}
+            {(type === "generate" && resp) ? <Copier text={resp?.response} /> : resp?.response}
           </pre>
         </TabPanel>
         <TabPanel value="2" className="tab-panel">

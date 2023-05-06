@@ -24,7 +24,7 @@ const ProcessSteps = ({ steps }: Props) => {
   let isGeneratedSQL = false;
   return (
     <Container>
-      {lines.map(line => {
+      {lines.map((line, index) => {
         const parts = line.split(":");
         const title = parts.shift() || "";
         let description: any = parts.join(":");
@@ -38,7 +38,7 @@ const ProcessSteps = ({ steps }: Props) => {
         }
 
         return (
-          <div className={getClassName(title)}>
+          <div key={index} className={getClassName(title)}>
             <strong>{title}:</strong>
             {description}
           </div>

@@ -13,6 +13,7 @@ const Container = styled.span`
 
 const CopyIcon = styled(ContentCopyIcon)`
   margin-left: 10px;
+  margin-right: 10px;
   position: relative;
   top: 3px;
   cursor: pointer;
@@ -34,7 +35,7 @@ const Copier = ({ text }: Props) => {
       <Tooltip TransitionComponent={Zoom} title={tooltip} placement="top">
         <CopyIcon fontSize="inherit" onClick={copyToClipboard} onMouseLeave={() => setTooltip("")} />
       </Tooltip>
-      {text}
+      {text.trim()}
     </Container>
   );
 };
