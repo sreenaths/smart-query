@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.exception_handler(Exception)
 async def validation_exception_handler(request, err):
-    return JSONResponse(status_code=500, content={"error": f"{err.__traceback__}"})
+    return JSONResponse(status_code=500, content={"error": f"{err}"})
 
 @app.post('/api/query')
 def on_query(payload: dict = Body(...)):
