@@ -138,7 +138,7 @@ class ImpalaIdentifierPreparer(IdentifierPreparer):
         'function', 'functions', 'grant', 'group', 'having', 'if', 'in',
         'init_fn', 'inner', 'inpath', 'insert', 'int', 'integer',
         'intermediate', 'interval', 'into', 'invalidate', 'is', 'join', 'last',
-        'left', 'like', 'limit', 'lines', 'load', 'location', 'map',
+        'left', 'like', 'limit', 'lines', 'load', 'location', 'map', 'method',
         'merge_fn', 'metadata', 'not', 'null', 'nulls', 'offset', 'on', 'or',
         'order', 'outer', 'over', 'overwrite', 'parquet', 'parquetfile',
         'partition', 'partitioned', 'partitions', 'preceding', 'prepare_fn',
