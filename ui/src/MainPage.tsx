@@ -13,6 +13,10 @@ import TabPanel from './components/TabPanel';
 const Container = styled.div`
   .tab-panel {
     padding: 24px 0;
+
+    & > div {
+      padding-top: 0;
+    }
   }
   .tab-box {
     border-bottom: 1px solid silver;

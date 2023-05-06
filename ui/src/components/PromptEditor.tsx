@@ -14,6 +14,7 @@ import { submitQuery } from "../service/query";
 import ProcessSteps from "./ProcessSteps";
 import { useParams } from "react-router-dom";
 import Copier from "./Copier";
+import { Skeleton } from "@mui/material";
 
 const Container = styled.div`
   padding: 20px 25px;
@@ -38,8 +39,9 @@ const Container = styled.div`
     min-height: 50px;
     background-color: #EEE;
     border-radius: 4px;
+    margin: 0;
 
-    padding: 10px 15px;
+    padding: 15px;
     font-size: 1.2em;
     box-sizing: border-box;
 
@@ -51,15 +53,6 @@ const Container = styled.div`
     line-height: 30px;
   }
 `;
-
-const ProcessingAnim = () => (
-  <div>
-    <LinearProgress />
-    <div className="processing-anim">
-      Processing...
-    </div>
-  </div>
-);
 
 const ButtonPanel = styled.div`
   padding-top: 10px;
@@ -113,16 +106,18 @@ function PromptEditor({ type }: Props) {
           </TabList>
         </Box>
         <TabPanel value="1" className="tab-panel">
-          <pre className="response-panel">
-            {isLoading && <ProcessingAnim />}
-            {(type === "generate" && resp) ? <Copier text={resp?.response} /> : resp?.response}
-          </pre>
+          {isLoading ? <Skeleton variant="rounded" height={50} /> : (
+            <pre className="response-panel">
+              {(type === "generate" && resp) ? <Copier text={resp?.response} /> : resp?.response}
+            </pre>
+          )}
         </TabPanel>
         <TabPanel value="2" className="tab-panel">
-          <pre className="thought-process-panel">
-            {isLoading && <ProcessingAnim />}
-            {resp && <ProcessSteps steps={resp.steps}/>}
-          </pre>
+          {isLoading ? <Skeleton variant="rounded" height={50} /> : (
+            <pre className="thought-process-panel">
+              {resp && <ProcessSteps steps={resp.steps}/>}
+            </pre>
+          )}
         </TabPanel>
       </TabContext>
     </Container>
