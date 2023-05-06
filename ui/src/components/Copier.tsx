@@ -4,6 +4,7 @@ import styled from "styled-components";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import Zoom from '@mui/material/Zoom';
 import Tooltip from '@mui/material/Tooltip';
+import { setClipboard } from "../util/clipboard";
 
 const Container = styled.span`
   color: purple;
@@ -25,8 +26,8 @@ interface Props {
 const Copier = ({ text }: Props) => {
   const [tooltip, setTooltip] = useState("");
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(text);
+  const copyToClipboard = async () => {
+    await setClipboard(text)
     setTooltip("Copied");
   };
 
