@@ -1,4 +1,6 @@
 from fastapi import FastAPI, Body
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 
 from core.config import configs
 
@@ -7,6 +9,10 @@ from util.executor import executor_factory
 from core.stdout import trap_stdout, get_stdout
 
 app = FastAPI()
+
+@app.exception_handler(Exception)
+async def validation_exception_handler(request, err):
+    return JSONResponse(status_code=500, content={"error": f"{err.__traceback__}"})
 
 @app.post('/api/query')
 def on_query(payload: dict = Body(...)):

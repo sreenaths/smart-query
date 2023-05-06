@@ -42,10 +42,11 @@ const StyledAlert = styled(Alert)`
 
 const ErrorMessage = ({error}: FallbackProps) => {
   const [expanded, setExpanded] = useState(false);
+  const serverResponse: any | undefined = (error as any)['response'];
 
-  let title = error.name;
+  let title = serverResponse ? 'ServerError' : error.name;
   let message = error.message;
-  let description = String(error.stack || "");
+  let description = String(serverResponse?.data?.error || error.stack || "");
 
   const action = (
     <IconButton color="inherit" size="small" onClick={() => setExpanded(!expanded)}>
