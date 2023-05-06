@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 
-import { Accordion, AccordionDetails, AccordionSummary, LinearProgress, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { HandlerStatus, useStateHandler } from "../util/handler";
@@ -14,6 +14,14 @@ const Container = styled.div`
 
   .Mui-expanded .MuiAccordionSummary-content p {
     font-weight: bold !important;
+  }
+
+  .sample-data-table {
+    tr {
+      &:last-child td, &:last-child th {
+        border: none;
+      }
+    }
   }
 `;
 
@@ -50,10 +58,30 @@ const DBSchema = () => {
       {tableSchemas?.map((schema, index) => (
         <Accordion key={index}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>{index + 1}. {schema.table_name}</Typography>
+            <Typography>{index + 1}. {schema.tableName}</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography><Details>{schema.details}</Details></Typography>
+            <Details>{schema.ddl}</Details>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} className="sample-data-table">
+                <TableHead>
+                  <TableRow>
+                    {schema.columns.map((columnName, i) => (
+                      <TableCell key={i}>{columnName}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {schema.sampleData.map((row, index) => (
+                    <TableRow key={index}>
+                      {row.map((cell, i) => (
+                        <TableCell key={i}>{cell}</TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </AccordionDetails>
         </Accordion>
       ))}
