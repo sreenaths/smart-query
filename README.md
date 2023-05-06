@@ -15,7 +15,7 @@ Activate would setup & activate a Python venv, install requirements and set PYTH
 ### Start Server
 venv must be active before running the server.
 ```
-gunicorn --chdir ./src app:app --reload
+uvicorn --app-dir ./src app:app --reload
 ```
 
 Server would start running on http://127.0.0.1:8000.

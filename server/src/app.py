@@ -1,4 +1,4 @@
-import falcon
+from fastapi import FastAPI, Body
 
 from core.config import configs
 
@@ -6,37 +6,34 @@ from util.db import get_schema
 from util.executor import executor_factory
 from core.stdout import trap_stdout, get_stdout
 
-class QueryResource:
-    def on_post(self, req, resp):
-        query_text = req.media["query_text"]
-        type = req.media["type"]
-        connector_id = req.media["connector_id"]
-        db_name = req.media["db_name"]
+app = FastAPI()
 
-        trap = trap_stdout()
-        executor = executor_factory(type, connector_id, db_name)
-        response = executor.run(query_text)
-        steps = get_stdout(trap)
+@app.post('/api/query')
+def on_query(payload: dict = Body(...)):
+    query_text = payload["query_text"]
+    type = payload["type"]
+    connector_id = payload["connector_id"]
+    db_name = payload["db_name"]
 
-        resp.media = {
-            "response": response,
-            "steps": steps
-        }
+    trap = trap_stdout()
+    executor = executor_factory(type, connector_id, db_name)
+    response = executor.run(query_text)
+    steps = get_stdout(trap)
 
-class SchemaResource:
-    def on_get(self, req, resp):
-        schema = get_schema(req.params["connector_id"], req.params["db_name"])
-        resp.media = {
-            "schema": schema
-        }
+    return {
+        "response": response,
+        "steps": steps
+    }
 
-class ConfigsResource:
-    def on_get(self, req, resp):
-        resp.media = {
-            "configs": configs
-        }
+@app.get('/api/schema')
+def on_schema(connector_id, db_name):
+    schema = get_schema(connector_id, db_name)
+    return {
+        "schema": schema
+    }
 
-app = falcon.App()
-app.add_route('/api/query', QueryResource())
-app.add_route('/api/schema', SchemaResource())
-app.add_route('/api/configs', ConfigsResource())
+@app.get('/api/configs')
+def on_configs():
+    return {
+      "configs": configs
+    }
