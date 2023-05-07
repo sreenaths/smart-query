@@ -21,9 +21,9 @@ const Header = styled.header`
   align-items: center;
 
   .logo {
-    width: 25px;
-    height: 25px;
-    margin-right: 2px;
+    width: 18px;
+    height: 18px;
+    margin: 0 5px;
   }
 
   white-space: nowrap;
