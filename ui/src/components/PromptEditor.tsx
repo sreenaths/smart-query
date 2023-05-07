@@ -60,9 +60,9 @@ const ButtonPanel = styled.div`
 `;
 
 interface Props {
-  type: string;
+  action: string;
 }
-function PromptEditor({ type }: Props) {
+function PromptEditor({ action }: Props) {
   const [value, setValue] = React.useState('1');
   const handleTabChange = (_: any, newValue: string) => setValue(newValue);
 
@@ -77,7 +77,7 @@ function PromptEditor({ type }: Props) {
       if(connectorId && databaseName) {
         handler.call({
           queryText,
-          type,
+          action,
           connectorId,
           databaseName
         });
@@ -91,7 +91,7 @@ function PromptEditor({ type }: Props) {
     }
   }
 
-  const sqlGenerated = type === "generate" && resp;
+  const sqlGenerated = action === "generate" && resp;
 
   return (
     <Container>

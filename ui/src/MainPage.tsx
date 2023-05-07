@@ -46,13 +46,13 @@ const MainPage = () => {
         </Box>
 
         <TabPanel currentValue={value} value="1">
-          <PromptEditor type="ask" />
+          <PromptEditor action="ask" />
         </TabPanel>
         <TabPanel currentValue={value} value="2">
-          <PromptEditor type="generate" />
+          <PromptEditor action="generate" />
         </TabPanel>
         <TabPanel currentValue={value} value="3">
-          <PromptEditor type="summarise" />
+          <PromptEditor action="summarise" />
         </TabPanel>
         <TabPanel currentValue={value} value="4">
           <DBSchema />

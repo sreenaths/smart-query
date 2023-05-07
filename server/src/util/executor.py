@@ -16,11 +16,11 @@ def create_llm():
     raise Exception("Invalid llm configuration.")
 
 llm = create_llm()
-def executor_factory(type, connector_id, db_name):
+def executor_factory(action, connector_id, db_name):
     db = create_db(connector_id, db_name)
 
     toolkit = SQLDatabaseToolkit(db=db, llm=llm)
-    suffix = optional_format(SUFFIX[type], dialect=db.dialect, db_name=db_name)
+    suffix = optional_format(SUFFIX[action], dialect=db.dialect, db_name=db_name)
     agent_executor = create_sql_agent(
         llm=llm,
         suffix=suffix,

@@ -17,12 +17,12 @@ async def validation_exception_handler(request, err):
 @app.post('/api/query')
 def on_query(payload: dict = Body(...)):
     query_text = payload["query_text"]
-    type = payload["type"]
+    action = payload["action"]
     connector_id = payload["connector_id"]
     db_name = payload["db_name"]
 
     trap = trap_stdout()
-    executor = executor_factory(type, connector_id, db_name)
+    executor = executor_factory(action, connector_id, db_name)
     response = executor.run(query_text)
     steps = get_stdout(trap)
 
