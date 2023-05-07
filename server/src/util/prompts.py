@@ -1,7 +1,7 @@
 _ASK_SUFFIX = """
 Current database is {db_name}.
 
-When asked for a list of items provide a numbered list with each item in a seperate line.
+When returning a list of items provide a numbered list with each item in a seperate line.
 
 Begin!
 
