@@ -115,7 +115,7 @@ function PromptEditor({ action }: Props) {
             <pre className="response-panel">
               {sqlGenerated ? <Copier text={resp.response} /> : resp?.response}
             </pre>
-            <div className="limit-label">* Row limit of 10 is enforced</div>
+            <div className="limit-label">* Row limit of 10 is enforced on DB queries</div>
             {sqlGenerated && <SqlRunner sql={resp.response} />}
           </>
         )}
