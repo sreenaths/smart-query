@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+
+const Container = styled.div`
+  padding: 24px 0;
+`;
 
 interface Props {
   children?: React.ReactNode;
@@ -14,9 +19,9 @@ function TabPanel({ children, value, currentValue }: Props) {
   }, [value, currentValue]);
 
   return openedOnce ? (
-    <div role="tabpanel" hidden={value !== currentValue} className="tab-panel">
+    <Container role="tabpanel" hidden={value !== currentValue}>
       {children}
-    </div>
+    </Container>
   ) : <></>;
 }
 

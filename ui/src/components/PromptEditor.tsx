@@ -4,20 +4,18 @@ import styled from "styled-components";
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 
 import { HandlerStatus, useStateHandler } from "../util/handler";
 import { submitQuery } from "../service/query";
 import ProcessSteps from "./ProcessSteps";
 import { useParams } from "react-router-dom";
 import Copier from "./Copier";
-import { Skeleton } from "@mui/material";
+import { Skeleton, Tabs } from "@mui/material";
 import SqlRunner from "./SqlRunner";
+import TabPanel from "./TabPanel";
 
 const Container = styled.div`
-  padding: 20px 25px;
+  padding: 0px 25px 20px 25px;
 
   textarea.prompt-editor {
     display: block;
@@ -28,10 +26,6 @@ const Container = styled.div`
     padding: 10px;
 
     resize: none;
-  }
-
-  .tab-panel {
-    padding: 24px 0;
   }
 
   .response-panel, .thought-process-panel {
@@ -63,8 +57,8 @@ interface Props {
   action: string;
 }
 function PromptEditor({ action }: Props) {
-  const [value, setValue] = React.useState('1');
-  const handleTabChange = (_: any, newValue: string) => setValue(newValue);
+  const [tab, setTab] = React.useState('1');
+  const handleTabChange = (_: any, newValue: string) => setTab(newValue);
 
   const { connectorId, databaseName } = useParams();
   const [queryText, setQueryText] = useState("");
@@ -102,31 +96,29 @@ function PromptEditor({ action }: Props) {
           Submit
         </LoadingButton>
       </ButtonPanel>
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleTabChange} aria-label="lab API tabs example">
-            <Tab label="Response" value="1" />
-            <Tab label="Thought Process" value="2"/>
-          </TabList>
-        </Box>
-        <TabPanel value="1" className="tab-panel">
-          {isLoading ? <Skeleton variant="rounded" height={50} /> : (
-            <>
-              <pre className="response-panel">
-                {sqlGenerated ? <Copier text={resp.response} /> : resp?.response}
-              </pre>
-              {sqlGenerated && <SqlRunner sql={resp.response} />}
-            </>
-          )}
-        </TabPanel>
-        <TabPanel value="2" className="tab-panel">
-          {isLoading ? <Skeleton variant="rounded" height={50} /> : (
-            <pre className="thought-process-panel">
-              {resp && <ProcessSteps steps={resp.steps}/>}
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs value={tab} onChange={handleTabChange}>
+          <Tab label="Response" value="1" />
+          <Tab label="Thought Process" value="2"/>
+        </Tabs>
+      </Box>
+      <TabPanel currentValue={tab} value="1">
+        {isLoading ? <Skeleton variant="rounded" height={50} /> : (
+          <>
+            <pre className="response-panel">
+              {sqlGenerated ? <Copier text={resp.response} /> : resp?.response}
             </pre>
-          )}
-        </TabPanel>
-      </TabContext>
+            {sqlGenerated && <SqlRunner sql={resp.response} />}
+          </>
+        )}
+      </TabPanel>
+      <TabPanel currentValue={tab} value="2">
+        {isLoading ? <Skeleton variant="rounded" height={50} /> : (
+          <pre className="thought-process-panel">
+            {resp && <ProcessSteps steps={resp.steps}/>}
+          </pre>
+        )}
+      </TabPanel>
     </Container>
   );
 }
