@@ -34,7 +34,8 @@ const MainPage = () => {
             <Tab label="Ask" value="1" />
             <Tab label="Generate" value="2"/>
             <Tab label="Summarise" value="3"/>
-            <Tab label="Schema" value="4" className='right-tab'/>
+            <Tab label="Optimize" value="4" disabled/>
+            <Tab label="Schema" value="100" className='right-tab'/>
           </Tabs>
         </Box>
 
@@ -48,6 +49,9 @@ const MainPage = () => {
           <PromptEditor action="summarise" />
         </TabPanel>
         <TabPanel currentValue={value} value="4">
+          <PromptEditor action="optimize" />
+        </TabPanel>
+        <TabPanel currentValue={value} value="100">
           <DBSchema />
         </TabPanel>
       </Container>

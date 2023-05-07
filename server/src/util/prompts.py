@@ -31,8 +31,19 @@ SQL query: {input}
 Thought: I should look at the tables in the database to see what tables are available.
 {agent_scratchpad}"""
 
+_OPTIMIZE_SUFFIX = """
+Current database is {db_name}.
+
+Optimize the following Input SQL query. Also explanation what is wrong with the input query and how it can optimized.
+The SQL query is in {dialect} dialect.
+
+Input SQL query: {input}
+Thought: I should look at the tables in the database to see what tables are available.
+{agent_scratchpad}"""
+
 SUFFIX = {
     "ask": _ASK_SUFFIX,
     "generate": _GENERATE_SUFFIX,
-    "summarise": _SUMMARISE_SUFFIX
+    "summarise": _SUMMARISE_SUFFIX,
+    "optimize": _OPTIMIZE_SUFFIX
 }
