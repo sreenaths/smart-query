@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 
 from core.config import configs
 
-from util.db import get_schema
+from util.db import get_schema, run_sql
 from util.executor import executor_factory
 from core.stdout import trap_stdout, get_stdout
 
@@ -36,6 +36,18 @@ def on_schema(connector_id, db_name):
     schema = get_schema(connector_id, db_name)
     return {
         "schema": schema
+    }
+
+@app.post('/api/run')
+def on_run(payload: dict = Body(...)):
+    connector_id = payload["connector_id"]
+    db_name = payload["db_name"]
+    sql = payload["sql"]
+
+    columns, rows = run_sql(connector_id, db_name, sql)
+    return {
+        "columns": columns,
+        "rows": rows
     }
 
 @app.get('/api/configs')

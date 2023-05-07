@@ -7,7 +7,6 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import LinearProgress from '@mui/material/LinearProgress';
 
 import { HandlerStatus, useStateHandler } from "../util/handler";
 import { submitQuery } from "../service/query";
@@ -15,6 +14,7 @@ import ProcessSteps from "./ProcessSteps";
 import { useParams } from "react-router-dom";
 import Copier from "./Copier";
 import { Skeleton } from "@mui/material";
+import SqlRunner from "./SqlRunner";
 
 const Container = styled.div`
   padding: 20px 25px;
@@ -91,6 +91,8 @@ function PromptEditor({ type }: Props) {
     }
   }
 
+  const sqlGenerated = type === "generate" && resp;
+
   return (
     <Container>
       <textarea className="prompt-editor" value={queryText}
@@ -109,9 +111,12 @@ function PromptEditor({ type }: Props) {
         </Box>
         <TabPanel value="1" className="tab-panel">
           {isLoading ? <Skeleton variant="rounded" height={50} /> : (
-            <pre className="response-panel">
-              {(type === "generate" && resp) ? <Copier text={resp?.response} /> : resp?.response}
-            </pre>
+            <>
+              <pre className="response-panel">
+                {sqlGenerated ? <Copier text={resp.response} /> : resp?.response}
+              </pre>
+              {sqlGenerated && <SqlRunner sql={resp.response} />}
+            </>
           )}
         </TabPanel>
         <TabPanel value="2" className="tab-panel">

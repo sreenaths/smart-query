@@ -1,5 +1,7 @@
 from langchain.sql_database import SQLDatabase
 
+from sqlalchemy import text
+
 from core.config import configs
 
 import dialects.impala.sqlalchemy
@@ -29,3 +31,15 @@ def get_schema(connector_id, db_name):
         "details": details
       })
     return schema
+
+SQL_RESULT_LIMIT=3
+def run_sql(connector_id, db_name, sql):
+    db = create_db(connector_id, db_name)
+    columns = []
+    rows = []
+    with db._engine.connect() as con:
+        rs = con.execute(text(sql))
+        columns = list(rs.keys())
+        for row in rs.fetchmany(SQL_RESULT_LIMIT):
+            rows.append(list(row))
+    return columns, rows

@@ -4,8 +4,7 @@ import { useParams } from "react-router-dom";
 
 import {
   Accordion, AccordionDetails, AccordionSummary, IconButton, LinearProgress,
-  Paper, Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow, Typography
+  Typography
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RefreshOutlinedIcon from '@mui/icons-material/RefreshOutlined';
@@ -16,6 +15,8 @@ import { colorBrewer } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { HandlerStatus, useStateHandler } from "../util/handler";
 import { ConnectorDBParams } from "../service/params";
 import { loadSchema } from "../service/db";
+import DataTable from "./DataTable";
+import { Title } from "./commons";
 
 const Container = styled.div`
   padding: 0 25px;
@@ -38,14 +39,6 @@ const Container = styled.div`
 
   .MuiAccordionDetails-root {
     padding-top: 0;
-  }
-
-  .sample-data-table {
-    tr {
-      &:last-child td, &:last-child th {
-        border: none;
-      }
-    }
   }
 `;
 
@@ -71,7 +64,7 @@ const DBSchema = () => {
 
   return (
     <Container>
-      <Typography variant="h5" component="h5">Tables</Typography><br />
+      <Title>Tables</Title>
       <IconButton color="primary" className="refresh-button" onClick={handler.call}>
         <RefreshOutlinedIcon />
       </IconButton>
@@ -84,26 +77,7 @@ const DBSchema = () => {
             <SyntaxHighlighter language="sql_more" style={colorBrewer} customStyle={highlighterStyled}>
               {schema.ddl}
             </SyntaxHighlighter>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} className="sample-data-table">
-                <TableHead>
-                  <TableRow>
-                    {schema.columns.map((columnName, i) => (
-                      <TableCell key={i}>{columnName}</TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {schema.sampleData.map((row, index) => (
-                    <TableRow key={index}>
-                      {row.map((cell, i) => (
-                        <TableCell key={i}>{cell}</TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <DataTable columns={schema.columns} rows={schema.sampleData} />
           </AccordionDetails>
         </Accordion>
       ))}

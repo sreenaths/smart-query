@@ -32,3 +32,17 @@ export const loadSchema = async (connectorId: string, databaseName: string): Pro
 
   return resp.data.schema.map(extractTableSchema);
 };
+
+interface SqlResult {
+  columns: string[];
+  rows: string[][];
+}
+export const runSql = async (connectorId: string, databaseName: string, sql: string): Promise<SqlResult> => {
+  const resp = await axios.post('/api/run', {
+    "connector_id": connectorId,
+    "db_name": databaseName,
+    "sql": sql
+  });
+
+  return resp.data;
+};
