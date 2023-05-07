@@ -27,7 +27,7 @@ const SqlRunner = ({ sql }: Props) => {
 
   return (
     <>
-      <Title>Sample Data</Title>
+      <Title>Query Response</Title>
       {content}
     </>
   );

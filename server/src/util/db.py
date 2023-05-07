@@ -32,7 +32,7 @@ def get_schema(connector_id, db_name):
       })
     return schema
 
-SQL_RESULT_LIMIT=3
+SQL_RESULT_LIMIT=10
 def run_sql(connector_id, db_name, sql):
     db = create_db(connector_id, db_name)
     columns = []

@@ -46,6 +46,13 @@ const Container = styled.div`
   .processing-anim {
     line-height: 30px;
   }
+
+  .limit-label {
+    font-size: 0.7em;
+    font-style: italic;
+    text-align: right;
+    height: 0px;
+  }
 `;
 
 const ButtonPanel = styled.div`
@@ -108,6 +115,7 @@ function PromptEditor({ action }: Props) {
             <pre className="response-panel">
               {sqlGenerated ? <Copier text={resp.response} /> : resp?.response}
             </pre>
+            <div className="limit-label">* Row limit of 10 is enforced</div>
             {sqlGenerated && <SqlRunner sql={resp.response} />}
           </>
         )}
