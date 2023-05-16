@@ -1,6 +1,15 @@
 {
-  "llm": "OpenAI",
+  "llm": {
+    "name": "OpenAI",
+    "sample_rows": 0
+  },
   "connectors": [
+    {
+      "id": "mysql",
+      "name": "MySQL",
+      "url": "mysql+pymysql://root:mypswd@localhost",
+      "databases": ["model_store"]
+    },
     {
       "id": "impala",
       "name": "Impala",

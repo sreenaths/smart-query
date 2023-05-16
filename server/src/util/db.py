@@ -12,7 +12,8 @@ def create_db(connector_id, db_name):
     connector_configs = configs["connectors"][connector_id]
     url = connector_configs["url"]
 
-    return SQLDatabase.from_uri(f'{url}/{db_name}')
+    sample_rows = configs["llm"].get("sample_rows", 3)
+    return SQLDatabase.from_uri(f'{url}/{db_name}', sample_rows_in_table_info = sample_rows)
 
 def get_schema(connector_id, db_name):
     db = create_db(connector_id, db_name)

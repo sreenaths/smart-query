@@ -10,7 +10,7 @@ from core.config import configs, env
 from .db import create_db
 
 def create_llm():
-    llm = configs["llm"].lower()
+    llm = configs["llm"]["name"].lower()
     if llm == "openai":
         return OpenAI(temperature=0,  openai_api_key=env["LLM_API_KEY"])
     raise Exception("Invalid llm configuration.")
