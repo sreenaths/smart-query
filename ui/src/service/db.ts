@@ -11,14 +11,20 @@ const extractTableSchema = (table: any) => {
   const tableName = table['table_name'];
   let [ddl, data] = table['details'].split("/*");
 
-  data = data.split("\n").slice(2, -1);
-  const columns = data.shift();
+  let columns  = [];
+  let sampleData = [];
+
+  if (data) {
+    data = data.split("\n").slice(2, -1);
+    columns = data.shift().split("\t");
+    sampleData = data.map((d: string) => d.split("\t"));
+  }
 
   return {
     tableName,
     ddl: ddl.trim(),
-    columns: columns.split("\t"),
-    sampleData: data.map((d: string) => d.split("\t"))
+    columns,
+    sampleData
   };
 };
 
