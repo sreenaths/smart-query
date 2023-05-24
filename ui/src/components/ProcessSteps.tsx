@@ -2,19 +2,34 @@ import React from "react";
 import styled from "styled-components";
 import Copier from "./Copier";
 
-const getClassName = (title: string): string => `step-${title.toLowerCase().replace(" ", "-")}`;
+const getClassName = (title: string): string => {
+  title = title.substring(0, title.length-1).toLowerCase();
+  title = title.replaceAll(" ", "-");
+  return title ? `step-${title} is-titled` : "";
+};
 
 const Container = styled.div`
   .step-thought {
     border-bottom: 1px solid silver;
     padding-bottom: 5px;
     margin-bottom: 5px;
-  }
-  .step-thought {
+
     font-style: italic;
     color: #0e5aa7;
   }
+
+  .is-titled {
+    margin-top: 2px;
+  }
 `;
+
+enum Title {
+  Action = "Action:",
+  ActionInput = "Action Input:",
+  Observation = "Observation:",
+  Thought = "Thought:",
+  FinalAnswer = "Final Answer:"
+}
 
 interface Props {
   steps: string;
@@ -25,22 +40,34 @@ const ProcessSteps = ({ steps }: Props) => {
   return (
     <Container>
       {lines.map((line, index) => {
-        const parts = line.split(":");
-        const title = parts.shift() || "";
-        let description: any = parts.join(":");
+        let title = "";
+        let description = "";
 
-        if(title === "Action") {
-          isGeneratedSQL = description === " query_sql_db";
-        } else if(title === "Action Input" && isGeneratedSQL) {
-          description = (
-            <Copier text={description} />
-          );
+        if(line.startsWith(Title.Action)) {
+          title = Title.Action;
+          isGeneratedSQL = line.endsWith("query_sql_db");
+        } else if(line.startsWith(Title.ActionInput)) {
+          title = Title.ActionInput;
+        } else if(line.startsWith(Title.Observation)) {
+          title = Title.Observation;
+        } else if(line.startsWith(Title.Thought)) {
+          title = Title.Thought;
+        } else if(line.startsWith(Title.FinalAnswer)) {
+          title = Title.FinalAnswer;
         }
+
+        if(title) {
+          description = line.substring(title.length);
+        } else {
+          description = line;
+        }
+
+        const isSQL = isGeneratedSQL && title === Title.ActionInput;
 
         return (
           <div key={index} className={getClassName(title)}>
-            <strong>{title}:</strong>
-            {description}
+            {title && <strong>{title}</strong>}
+            {isSQL ? <Copier text={description} /> : description}
           </div>
         );
       })}
