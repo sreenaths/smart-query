@@ -12,7 +12,7 @@ app = FastAPI()
 
 @app.exception_handler(Exception)
 async def validation_exception_handler(request, err):
-    return JSONResponse(status_code=500, content={"error": f"{err}"})
+    return JSONResponse(status_code=500, content={"error": str(err)})
 
 @app.post('/api/query')
 def on_query(payload: dict = Body(...)):
@@ -23,13 +23,19 @@ def on_query(payload: dict = Body(...)):
 
     trap = trap_stdout()
     executor = executor_factory(action, connector_id, db_name)
-    response = executor.run(query_text)
-    steps = get_stdout(trap)
-
-    return {
-        "response": response,
-        "steps": steps
-    }
+    try:
+        response = executor.run(query_text)
+        steps = get_stdout(trap)
+        return {
+            "response": response,
+            "steps": steps
+        }
+    except Exception as err:
+        steps = get_stdout(trap)
+        return JSONResponse(status_code=500, content={
+            "error": str(err),
+            "steps": steps
+        })
 
 @app.get('/api/schema')
 def on_schema(connector_id, db_name):

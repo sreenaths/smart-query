@@ -42,11 +42,24 @@ const StyledAlert = styled(Alert)`
 
 const ErrorMessage = ({error}: FallbackProps) => {
   const [expanded, setExpanded] = useState(false);
-  const serverResponse: any | undefined = (error as any)['response'];
+  const serverResponse: any | undefined = (error as any)?.response?.data;
 
   let title = serverResponse ? 'ServerError' : error.name;
   let message = error.message;
-  let description = String(serverResponse?.data?.error || error.stack || "");
+
+  if(serverResponse?.error) {
+    message = serverResponse?.error;
+  }
+
+  let details: string[] = []
+
+  if(serverResponse?.steps) {
+    details.push(`Thought Process:\n${serverResponse?.steps}`);
+  }
+
+  if(error.stack) {
+    details.push(`Stack:\n${error.stack}`);
+  }
 
   const action = (
     <IconButton color="inherit" size="small" onClick={() => setExpanded(!expanded)}>
@@ -61,7 +74,7 @@ const ErrorMessage = ({error}: FallbackProps) => {
         <span className="message">{message}</span>
       </AlertTitle>
       <div className="body">
-        <pre>{description}</pre>
+        <pre>{details.join("\n\n")}</pre>
       </div>
     </StyledAlert>
   );
