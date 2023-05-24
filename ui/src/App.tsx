@@ -6,7 +6,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import { HandlerStatus, useStateHandler } from './util/handler';
 import { ConfigsContext, loadConfigs } from './service/configs';
 import AppRoutes from './AppRoutes';
-import ErrorMessage from './components/ErrorMessage';
+import { ErrorMessageFallback } from './components/ErrorMessage';
 
 function App() {
   const [configs, handler] = useStateHandler(null, loadConfigs, []);
@@ -20,7 +20,7 @@ function App() {
   }
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorMessage}>
+    <ErrorBoundary FallbackComponent={ErrorMessageFallback}>
       <ConfigsContext.Provider value={configs}>
         <section className="App">
           <AppRoutes />

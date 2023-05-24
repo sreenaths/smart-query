@@ -8,6 +8,8 @@ import { runSql } from "../service/db";
 import { ConnectorDBParams } from "../service/params";
 import DataTable from "./DataTable";
 import { Title } from "./commons";
+import { ErrorMessage } from "./ErrorMessage";
+import { AxiosError } from "axios";
 
 interface Props {
   sql: string;
@@ -18,7 +20,13 @@ const SqlRunner = ({ sql }: Props) => {
 
   let content = <Alert severity="warning">This is a warning alert — check it out!</Alert>;
   if(handler.status === HandlerStatus.ERROR) {
-    content = <Alert severity="error">Failed to load sample data!</Alert>;
+    const err: AxiosError = handler.error as AxiosError;
+    const errData: any = err.response?.data;
+    content = <ErrorMessage error={{
+      name: "Query Failed",
+      message: "Failed to load sample data!",
+      stack: errData.error
+    }}/>
   } else if(handler.status === HandlerStatus.IN_PROGRESS) {
     content = <LinearProgress />;
   } else if (result) {

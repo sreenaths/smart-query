@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 
 import styled from "styled-components";
-import { FallbackProps } from "react-error-boundary";
 
 import { Alert, AlertTitle, IconButton } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const StyledAlert = styled(Alert)`
-  margin: 20px;
-
   .title {
     margin: 0px;
   }
@@ -40,7 +37,11 @@ const StyledAlert = styled(Alert)`
   }
 `;
 
-const ErrorMessage = ({error}: FallbackProps) => {
+type Props = {
+  error: Error;
+};
+
+export const ErrorMessage = ({error}: Props) => {
   const [expanded, setExpanded] = useState(false);
   const serverResponse: any | undefined = (error as any)?.response?.data;
 
@@ -58,7 +59,7 @@ const ErrorMessage = ({error}: FallbackProps) => {
   }
 
   if(error.stack) {
-    details.push(`Stack:\n${error.stack}`);
+    details.push(`Details:\n${error.stack}`);
   }
 
   const action = (
@@ -80,4 +81,14 @@ const ErrorMessage = ({error}: FallbackProps) => {
   );
 };
 
-export default ErrorMessage;
+const Container = styled.div`
+  padding: 20px;
+`;
+
+export const ErrorMessageFallback = ({ error }: Props) => {
+  return (
+    <Container>
+      <ErrorMessage error={error} />
+    </Container>
+  );
+};
